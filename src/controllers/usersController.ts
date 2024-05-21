@@ -1,7 +1,10 @@
-import Users from "../models/Users";
 import { Request, Response } from "express";
+
+import Users, { IUser } from "../models/Users";
+
 import { OAuth2Client, TokenPayload } from "google-auth-library";
 import jwt from "jsonwebtoken";
+
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -58,16 +61,23 @@ export const googleSignIn = async (req: GoogleSignInRequest, res: Response) => {
   const { token } = req.body;
   try {
     const userPayload = await verify(token);
-
     if (userPayload) {
       const { sub: googleId, email, name, picture } = userPayload;
-      //i need to save it in the db here and then put the user inside the jwt.sign
+      let user = (await Users.findOne({ googleId }).exec()) as IUser | null;
 
-      const jwtToken = jwt.sign({ userId: email }, JWT_SECRET, {
+      if (!user) {
+        await Users.create({ googleId, email, name, picture });
+      }
+
+      const jwtToken = jwt.sign({ userId: user?._id }, JWT_SECRET, {
         expiresIn: "1h",
       });
 
-      res.status(200).json({ token: jwtToken });
+      res.cookie("jwt", jwtToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production", // TODO: if production is to someday exist set to true. 
+        maxAge: 3600000, // 1 hour
+      });
     } else {
       res.status(401).send("Invalid token");
     }
