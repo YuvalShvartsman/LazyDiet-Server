@@ -1,10 +1,10 @@
-import mongoose, { Schema, Document, Model } from 'mongoose';
+import mongoose, { Schema, Document, Model } from "mongoose";
 
 export interface IUser extends Document {
-  googleId:string;
-  email:string;
-  name:string;
-  picture:string;
+  googleId: string;
+  email: string;
+  name: string;
+  picture: string;
   isAdmin?: boolean;
 }
 
@@ -16,6 +16,6 @@ const userSchema: Schema<IUser> = new Schema({
   isAdmin: { type: Boolean, required: false },
 });
 
-const Users: Model<IUser> = mongoose.model<IUser>('Users', userSchema);
+const Users: Model<IUser> = mongoose.model<IUser>("users", userSchema);
 
 export default Users;
