@@ -73,11 +73,14 @@ export const googleSignIn = async (req: GoogleSignInRequest, res: Response) => {
         expiresIn: "1h",
       });
 
-      res.cookie("jwt", jwtToken, {
+      res.cookie("token", jwtToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production", // TODO: if production is to someday exist set to true. 
+        secure: true,
         maxAge: 3600000, // 1 hour
+        sameSite:'strict'
+        
       });
+      res.json({ user, token: jwtToken });
     } else {
       res.status(401).send("Invalid token");
     }
