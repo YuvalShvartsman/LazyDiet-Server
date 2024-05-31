@@ -5,13 +5,9 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 
-import jwt from "express-jwt";
-
 import dotenv from "dotenv";
 
 import routes from "./routes";
-
-const JWT_SECRET = process.env.JWT_SECRET!;
 
 const app = express();
 const port = 3000;
@@ -28,17 +24,6 @@ app.use(
     credentials: true,
   })
 );
-
-// app.use(
-//   session({
-//     secret: process.env.SESSION_SECRET || "kilter-board",
-//     resave: false,
-//     saveUninitialized: true,
-//   })
-// );
-
-// app.use(passport.initialize());
-// app.use(passport.session());
 
 app.use(routes);
 

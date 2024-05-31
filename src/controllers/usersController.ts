@@ -26,7 +26,38 @@ interface GoogleSignInRequest extends Request {
   };
 }
 
-export const createUser = async (res: Response, req: ICreateUserRequest) => {
+// helper functions
+async function verify(token: string): Promise<TokenPayload | undefined> {
+  const ticket = await client.verifyIdToken({
+    idToken: token,
+    audience: CLIENT_ID,
+  });
+  const payload = ticket.getPayload();
+  return payload;
+}
+
+// get functions
+export const getAllUsers = async (req: Request, res: Response) => {
+  try {
+    const allUsers = await Users.find();
+    res.status(200).json(allUsers);
+  } catch (error) {
+    console.error("Error finding users:", error);
+  }
+};
+
+export const getUserById = async (req: Request, res: Response) => {
+  const _id = req.params.id;
+  try {
+    const user = await Users.findOne({ _id });
+    res.status(200).json({ user });
+  } catch (error) {
+    console.error("Error finding users:", error);
+  }
+};
+
+// post functions
+export const createUser = async (req: ICreateUserRequest, res: Response) => {
   const { userName, password, isAdmin } = req.body;
   try {
     const newUser = await Users.create({
@@ -38,24 +69,6 @@ export const createUser = async (res: Response, req: ICreateUserRequest) => {
     console.error("Error creating user:", error);
   }
 };
-
-export const getAllUsers = async (res: Response, req: Request) => {
-  try {
-    const allUsers = await Users.find();
-    res.status(200).json(allUsers);
-  } catch (error) {
-    console.error("Error finding users:", error);
-  }
-};
-
-async function verify(token: string): Promise<TokenPayload | undefined> {
-  const ticket = await client.verifyIdToken({
-    idToken: token,
-    audience: CLIENT_ID,
-  });
-  const payload = ticket.getPayload();
-  return payload;
-}
 
 export const googleSignIn = async (req: GoogleSignInRequest, res: Response) => {
   const { token } = req.body;
@@ -73,13 +86,6 @@ export const googleSignIn = async (req: GoogleSignInRequest, res: Response) => {
         expiresIn: "1h",
       });
 
-      res.cookie("token", jwtToken, {
-        httpOnly: true,
-        secure: true,
-        maxAge: 3600000, // 1 hour
-        sameSite:'strict'
-        
-      });
       res.json({ user, token: jwtToken });
     } else {
       res.status(401).send("Invalid token");

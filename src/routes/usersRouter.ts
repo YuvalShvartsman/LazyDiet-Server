@@ -1,13 +1,17 @@
-import express from 'express'
-import { createUser, getAllUsers ,googleSignIn} from '../controllers/usersController'
+import express from "express";
+import {
+  createUser,
+  getAllUsers,
+  getUserById,
+  googleSignIn,
+} from "../controllers/usersController";
 
-const router = express.Router()
+const router = express.Router();
 
-router.get('/allUsers', getAllUsers)
-router.post('/createUser', createUser)
+router.get("/allUsers", getAllUsers);
+router.get("/userById/:id", getUserById);
 
-router.post('/google-signIn', googleSignIn)
+router.post("/createUser", createUser);
+router.post("/google-signIn", googleSignIn);
 
-
-
-export {router as usersRouter} 
+export { router as usersRouter };
