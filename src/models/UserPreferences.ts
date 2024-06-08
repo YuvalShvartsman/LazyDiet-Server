@@ -5,10 +5,10 @@ export interface IUserPreferences extends Document {
   weight: string;
   height: string;
   age: string;
-  goal: string;
+  goal: Types.ObjectId;
   amountOfMeals?: number;
-  dietType: string;
-  sensitivities: string;
+  dietType: Types.ObjectId;
+  sensitivities: Types.ObjectId;
   suggestFoods: boolean;
 }
 
@@ -17,10 +17,14 @@ const userPreferencesSchema: Schema<IUserPreferences> = new Schema({
   weight: { type: String, required: true },
   height: { type: String, required: true },
   age: { type: String, required: true },
-  goal: { type: String, required: true },
+  goal: { type: Schema.Types.ObjectId, ref: "goals", required: true },
   amountOfMeals: { type: Number, required: false },
-  dietType: { type: String, required: true },
-  sensitivities: { type: String, required: true },
+  dietType: { type: Schema.Types.ObjectId, ref: "dietTypes", required: true },
+  sensitivities: {
+    type: Schema.Types.ObjectId,
+    ref: "sensitivities",
+    required: true,
+  },
   suggestFoods: { type: Boolean, required: true },
 });
 
