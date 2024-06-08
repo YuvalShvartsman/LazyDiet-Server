@@ -12,14 +12,6 @@ const CLIENT_ID = process.env.GOOGLE_CLIENT_ID!;
 const client = new OAuth2Client(CLIENT_ID);
 const JWT_SECRET = process.env.JWT_SECRET!;
 
-interface ICreateUserRequest extends Request {
-  body: {
-    userName: string;
-    password: string;
-    isAdmin: boolean;
-  };
-}
-
 interface GoogleSignInRequest extends Request {
   body: {
     token: string;
@@ -52,23 +44,11 @@ export const getUserById = async (req: Request, res: Response) => {
     const user = await Users.findOne({ _id });
     res.status(200).json({ user });
   } catch (error) {
-    console.error("Error finding users:", error);
+    console.error("Could not find user", error);
   }
 };
 
 // post functions
-export const createUser = async (req: ICreateUserRequest, res: Response) => {
-  const { userName, password, isAdmin } = req.body;
-  try {
-    const newUser = await Users.create({
-      userName,
-      password,
-      isAdmin,
-    });
-  } catch (error) {
-    console.error("Error creating user:", error);
-  }
-};
 
 export const googleSignIn = async (req: GoogleSignInRequest, res: Response) => {
   const { token } = req.body;
