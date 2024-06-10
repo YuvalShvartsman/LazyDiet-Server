@@ -32,7 +32,7 @@ async function verify(token: string): Promise<TokenPayload | undefined> {
 export const getAllUsers = async (req: Request, res: Response) => {
   try {
     const allUsers = await Users.find();
-    res.status(200).json(allUsers);
+    res.status(200).json({ data: allUsers });
   } catch (error) {
     console.error("Error finding users:", error);
   }
@@ -42,7 +42,7 @@ export const getUserById = async (req: Request, res: Response) => {
   const _id = req.params.id;
   try {
     const user = await Users.findOne({ _id });
-    res.status(200).json({ user });
+    res.status(200).json({ data: user });
   } catch (error) {
     console.error("Could not find user", error);
   }
@@ -65,8 +65,8 @@ export const googleSignIn = async (req: GoogleSignInRequest, res: Response) => {
       const jwtToken = jwt.sign({ userId: user?._id }, JWT_SECRET, {
         expiresIn: "1h",
       });
-
-      res.json({ user, token: jwtToken });
+      console.log(user, token);
+      res.json({ data: { user, token: jwtToken } });
     } else {
       res.status(401).send("Invalid token");
     }
