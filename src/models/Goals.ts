@@ -8,9 +8,6 @@ const goalsSchema: Schema<IGoals> = new Schema({
   goal: { type: String, required: true },
 });
 
-const Sensitivities: Model<IGoals> = mongoose.model<IGoals>(
-  "goals",
-  goalsSchema
-);
+const Goals: Model<IGoals> = mongoose.model<IGoals>("goals", goalsSchema);
 
-export default Sensitivities;
+export default Goals;
