@@ -15,13 +15,23 @@ export const saveUserPreferences = async (
   req: ISaveUserRequest,
   res: Response
 ) => {
-  console.log(req.body);
   const { userPreferences, userId } = req.body;
+  let createdPreferences = {};
   try {
     if (userPreferences && userId) {
-      console.log(userPreferences, userId);
-      await UserPreferences.create({ ...userPreferences, userId });
-      res.json({ userPreferences });
+      const userPreferencesExists = await UserPreferences.find({ userId });
+      if (!userPreferencesExists)
+        createdPreferences = await UserPreferences.create({
+          userPreferences,
+          userId,
+        });
+      else
+        createdPreferences = await UserPreferences.updateOne({
+          userPreferences,
+          userId,
+        });
+
+      res.json({ data: { createdPreferences } });
     } else {
       res.status(401).send("A problem occured while saving form data.");
     }

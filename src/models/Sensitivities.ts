@@ -1,10 +1,12 @@
-import mongoose, { Schema, Document, Model } from "mongoose";
+import mongoose, { Schema, Document, Model, Types } from "mongoose";
 
 export interface ISensitivities extends Document {
+  id: Types.ObjectId;
   sensitivity: string;
 }
 
 const sensitivitiesSchema: Schema<ISensitivities> = new Schema({
+  id: { type: Schema.Types.ObjectId },
   sensitivity: { type: String, required: true },
 });
 
