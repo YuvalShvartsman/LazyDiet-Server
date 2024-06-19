@@ -16,28 +16,49 @@ export const saveUserPreferences = async (
   res: Response
 ) => {
   const { userPreferences, userId } = req.body;
-  let createdPreferences = {};
   try {
     if (userPreferences && userId) {
       const userPreferencesExists = await UserPreferences.find({ userId });
-      if (!userPreferencesExists)
-        createdPreferences = await UserPreferences.create({
-          userPreferences,
-          userId,
-        });
-      else
-        createdPreferences = await UserPreferences.updateOne({
-          userPreferences,
-          userId,
-        });
 
-      res.json({ data: { createdPreferences } });
+      if (!userPreferencesExists) {
+        const createdDocument = await UserPreferences.create({
+          userPreferences,
+          userId,
+        });
+        res.json({ data: createdDocument });
+      } else {
+        const updatedDocument = await UserPreferences.findOneAndUpdate({
+          userId,
+          userPreferences,
+        });
+        res.json({ data: updatedDocument });
+      }
     } else {
       res.status(401).send("A problem occured while saving form data.");
     }
   } catch (error) {
     console.log(error);
     res.status(401).send("A problem occured while saving form data.");
+  }
+};
+
+export const getPreferencesByUser = async (
+  req: ISaveUserRequest,
+  res: Response
+) => {
+  const { userId } = req.params;
+  try {
+    if (userId) {
+      const userPreferences = await UserPreferences.findOne({ userId });
+      res.json({ data: userPreferences });
+    } else {
+      res
+        .status(401)
+        .send("A problem occurred while trying to retrieve your data");
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(401).send("A problem occurred while saving form data.");
   }
 };
 
@@ -49,8 +70,6 @@ export const getUserPreferencesOptions = async (
     const goals = await Goals.find();
     const sensitivities = await Sensitivities.find();
     const dietTypes = await DietTypes.find();
-
-    console.log(goals, sensitivities, dietTypes);
 
     res.json({ data: { goals, sensitivities, dietTypes } });
   } catch (error) {

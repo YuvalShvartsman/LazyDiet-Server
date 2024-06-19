@@ -2,10 +2,12 @@ import express from "express";
 import {
   saveUserPreferences,
   getUserPreferencesOptions,
+  getPreferencesByUser,
 } from "../controllers/userPreferencesController";
 
 const router = express.Router();
 
+router.get("/:userId", getPreferencesByUser);
 router.get("/preferencesOptions", getUserPreferencesOptions);
 
 router.post("/", saveUserPreferences);
