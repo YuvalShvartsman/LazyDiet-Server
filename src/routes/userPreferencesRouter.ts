@@ -7,7 +7,7 @@ import {
 
 const router = express.Router();
 
-router.get("/:userId", getPreferencesByUser);
+router.get("/preferencesByUser/:userId", getPreferencesByUser);
 router.get("/preferencesOptions", getUserPreferencesOptions);
 
 router.post("/", saveUserPreferences);

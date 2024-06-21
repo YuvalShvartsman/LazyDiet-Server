@@ -52,13 +52,16 @@ export const getPreferencesByUser = async (
       const userPreferences = await UserPreferences.findOne({ userId });
       res.json({ data: userPreferences });
     } else {
+      console.log("No user Id");
       res
         .status(401)
-        .send("A problem occurred while trying to retrieve your data");
+        .send("A problem occurred while trying to find your preferences.");
     }
   } catch (error) {
     console.log(error);
-    res.status(401).send("A problem occurred while saving form data.");
+    res
+      .status(401)
+      .send("A problem occurred while trying to find your preferences.");
   }
 };
 
@@ -74,6 +77,6 @@ export const getUserPreferencesOptions = async (
     res.json({ data: { goals, sensitivities, dietTypes } });
   } catch (error) {
     console.log(error);
-    res.status(401).send("A problem occured while saving form data.");
+    res.status(401).send("A problem occured while trying to get your data.");
   }
 };

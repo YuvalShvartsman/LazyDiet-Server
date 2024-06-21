@@ -56,6 +56,7 @@ export const googleSignIn = async (req: GoogleSignInRequest, res: Response) => {
     const userPayload = await verify(token);
     if (userPayload) {
       const { sub: googleId, email, name, picture } = userPayload;
+
       let user = (await Users.findOne({ googleId }).exec()) as IUser | null;
 
       if (!user) {
@@ -65,12 +66,12 @@ export const googleSignIn = async (req: GoogleSignInRequest, res: Response) => {
       const jwtToken = jwt.sign({ userId: user?._id }, JWT_SECRET, {
         expiresIn: "1h",
       });
-      console.log(user, token);
       res.json({ data: { user, token: jwtToken } });
     } else {
       res.status(401).send("Invalid token");
     }
   } catch (error) {
+    console.log(error);
     res.status(401).send("Invalid token");
   }
 };
