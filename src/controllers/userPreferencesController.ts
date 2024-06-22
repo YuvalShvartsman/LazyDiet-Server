@@ -22,15 +22,15 @@ export const saveUserPreferences = async (
 
       if (!userPreferencesExists) {
         const createdDocument = await UserPreferences.create({
-          userPreferences,
           userId,
+          userPreferences,
         });
         res.json({ data: createdDocument });
       } else {
-        const updatedDocument = await UserPreferences.findOneAndUpdate({
-          userId,
-          userPreferences,
-        });
+        const updatedDocument = await UserPreferences.findOneAndUpdate(
+          { userId },
+          userPreferences
+        );
         res.json({ data: updatedDocument });
       }
     } else {
