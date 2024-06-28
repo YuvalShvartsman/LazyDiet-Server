@@ -6,7 +6,7 @@ import DietTypes from "../models/DietTypes";
 
 interface ISaveUserRequest extends Request {
   body: {
-    userPreferences: IUserPreferences;
+    userPreferences: Omit<IUserPreferences, "userId">;
     userId: string;
   };
 }
@@ -18,12 +18,12 @@ export const saveUserPreferences = async (
   const { userPreferences, userId } = req.body;
   try {
     if (userPreferences && userId) {
-      const userPreferencesExists = await UserPreferences.find({ userId });
+      const userPreferencesExists = await UserPreferences.findOne({ userId });
 
       if (!userPreferencesExists) {
         const createdDocument = await UserPreferences.create({
           userId,
-          userPreferences,
+          ...userPreferences,
         });
         res.json({ data: createdDocument });
       } else {

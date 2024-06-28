@@ -60,7 +60,7 @@ export const googleSignIn = async (req: GoogleSignInRequest, res: Response) => {
       let user = (await Users.findOne({ googleId }).exec()) as IUser | null;
 
       if (!user) {
-        await Users.create({ googleId, email, name, picture });
+        user = await Users.create({ googleId, email, name, picture });
       }
 
       const jwtToken = jwt.sign({ userId: user?._id }, JWT_SECRET, {
