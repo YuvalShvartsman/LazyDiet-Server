@@ -7,7 +7,7 @@ export interface IIngredients extends Document {
   "Nutrient code": number;
   "Nutrient value": number;
   "FDC ID": number;
-  nutrients: Types.ObjectId[];
+  // nutrients: Types.ObjectId[];
 }
 
 const ingredientsSchema: Schema<IIngredients> = new Schema({
@@ -16,8 +16,8 @@ const ingredientsSchema: Schema<IIngredients> = new Schema({
   "Ingredient description": { type: String, required: true },
   "Nutrient code": { type: Number, required: true },
   "Nutrient value": { type: Number, required: true },
-  "FDC ID": { type: Number, required: true },
-  nutrients: [{ type: Schema.Types.ObjectId, ref: "nutrients" }],
+  "FDC ID": { type: Number, required: true, ref: "nutrients" },
+  // nutrients: [{ type: Schema.Types.ObjectId, ref: "nutrients" }],
 });
 
 const Ingredients: Model<IIngredients> = mongoose.model<IIngredients>(
