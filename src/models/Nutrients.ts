@@ -1,29 +1,21 @@
-import mongoose, { Schema, Document, Model, Types } from "mongoose";
-import { INutrientsNames } from "./NutrientsNames";
+import mongoose, { Schema, Document } from "mongoose";
 
-export interface INutrients extends Document {
-  _id: Types.ObjectId;
-  id: number;
+interface INutrient extends Document {
+  // id: number;
   fdc_id: number;
   nutrient_id: number;
   amount: number;
-  derivation_id: number;
-  nutrient_name: Types.ObjectId | INutrientsNames;
+  // derivation_id: number;
+  nutrientsNames: mongoose.Types.ObjectId[];
 }
 
-const nutrientsSchema: Schema<INutrients> = new Schema({
-  _id: { type: Schema.Types.ObjectId },
-  id: { type: Number, required: true },
+const NutrientSchema: Schema = new Schema({
+  // id: { type: Number, required: true, unique: true },
   fdc_id: { type: Number, required: true },
-  nutrient_id: { type: Number, required: true },
+  nutrient_id: { type: Number, required: true, ref: "nutrientsNames" },
   amount: { type: Number, required: true },
-  derivation_id: { type: Number, required: true },
-  nutrient_name: { type: Schema.Types.ObjectId, ref: "nutrientsNames" },
+  // derivation_id: { type: Number, required: true },
+  nutrientsNames: [{ type: mongoose.Types.ObjectId }],
 });
 
-const Nutrients: Model<INutrients> = mongoose.model<INutrients>(
-  "nutrients",
-  nutrientsSchema
-);
-
-export default Nutrients;
+export const nutrients = mongoose.model<INutrient>("nutrients", NutrientSchema);

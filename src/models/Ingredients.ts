@@ -1,28 +1,34 @@
-import mongoose, { Schema, Document, Model, Types } from "mongoose";
+import mongoose, { Schema, Document } from "mongoose";
 
-export interface IIngredients extends Document {
-  id: Types.ObjectId;
-  "ingredient code": number;
-  "Ingredient description": string;
-  "Nutrient code": number;
-  "Nutrient value": number;
+interface IIngredient extends Document {
   "FDC ID": number;
-  // nutrients: Types.ObjectId[];
+  // ingredient_code: number;
+  ingredient_description: string;
+  // nutrient_code: number;
+  // nutrient_value: number;
+  // nutrient_value_source: string;
+  // SR_AddMod_year: number;
+  // Foundation_year_acquired: number;
+  // start_date: Date;
+  // end_date: Date;
+  nutrients: mongoose.Types.ObjectId[];
 }
 
-const ingredientsSchema: Schema<IIngredients> = new Schema({
-  id: { type: Schema.Types.ObjectId },
-  "ingredient code": { type: Number, required: true },
+const IngredientSchema: Schema = new Schema({
+  // "ingredient code": { type: Number, required: true },
   "Ingredient description": { type: String, required: true },
-  "Nutrient code": { type: Number, required: true },
-  "Nutrient value": { type: Number, required: true },
-  "FDC ID": { type: Number, required: true, ref: "nutrients" },
-  // nutrients: [{ type: Schema.Types.ObjectId, ref: "nutrients" }],
+  // "Nutrient code": { type: Number, required: true },
+  // "Nutrient value": { type: Number, required: true },
+  // "Nutrient value source": { type: String, required: true },
+  "FDC ID": { type: Number, required: true, unique: true, ref: "nutrients" },
+  // "SR AddMod year": { type: Number, required: true },
+  // "Foundation year acquired": { type: Number, required: true },
+  // "Start date": { type: Date, required: true },
+  // "End date": { type: Date, required: true },
+  nutrients: [{ type: mongoose.Types.ObjectId }],
 });
 
-const Ingredients: Model<IIngredients> = mongoose.model<IIngredients>(
+export const Ingredient = mongoose.model<IIngredient>(
   "ingredients",
-  ingredientsSchema
+  IngredientSchema
 );
-
-export default Ingredients;

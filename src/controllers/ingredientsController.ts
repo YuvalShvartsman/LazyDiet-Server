@@ -1,25 +1,55 @@
 import { Request, Response } from "express";
-import Ingredients from "../models/Ingredients";
-import Nutrients from "../models/Nutrients";
-import NutrientsNames from "../models/NutrientsNames";
+import { Ingredient } from "../models/Ingredients";
+import { nutrients } from "../models/Nutrients";
+import { nutrientsNames } from "../models/NutrientsNames";
 
 export const getIngredients = async (req: Request, res: Response) => {
-  try {
-    const ingredients = await Ingredients.find().populate({
-      path: "nutrients",
-      populate: {
-        path: "nutrient_name",
-        model: "nutrientsNames", // Populate the nutrient_name field with data from NutrientsNames collection
-        select: "name nutrient_id", // Select fields you want to include
-      },
-    });
-    res.json({ data: ingredients });
-  } catch (error) {
-    console.log(error);
-    res
-      .status(401)
-      .send(
-        "A problem occured while trying to get diet types from the server."
-      );
+  const pageSize = 100000;
+  let page = 1;
+  let hasMoreData = true;
+
+  let ingredientsWithNutrients = [];
+
+  while (hasMoreData) {
+    try {
+      const ingredients = await Ingredient.find();
+      // .skip((page - 1) * pageSize)
+      // .limit(pageSize)
+      // .populate({
+      //   path: "nutrients",
+      //   match: { fdc_id: "$FDC ID" },
+      //   populate: {
+      //     path: "nutrientsNames",
+      //     // model: "nutrientsNames",
+      //   },
+      // });
+
+      if (ingredients.length > 0) {
+        // Process the ingredients here
+        console.log(
+          `Processing page ${page} with ${ingredients.length} ingredients`
+        );
+
+        // Example processing:
+        ingredients.forEach(async (ingredient) => {
+          // console.log(ingredient);
+          const ingredientsNutrients = await nutrients.find({
+            fdc_id: ingredient["FDC ID"],
+          });
+          ingredientsWithNutrients.push({ ingredient, ingredientsNutrients });
+          console.log(ingredientsWithNutrients);
+        });
+
+        // Move to the next page
+        page++;
+      } else {
+        // No more data
+        hasMoreData = false;
+      }
+      res.json(ingredients);
+    } catch (err) {
+      console.error("Error in query:", err);
+      hasMoreData = false;
+    }
   }
 };
