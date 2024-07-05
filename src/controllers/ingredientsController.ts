@@ -34,7 +34,7 @@ export const getIngredients = async (req: Request, res: Response) => {
         ingredients.forEach(async (ingredient) => {
           // console.log(ingredient);
           const ingredientsNutrients = await nutrients.find({
-            fdc_id: ingredient["FDC ID"],
+            fdc_id: ingredient.fdc_id,
           });
           ingredientsWithNutrients.push({ ingredient, ingredientsNutrients });
           console.log(ingredientsWithNutrients);

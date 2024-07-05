@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 interface IIngredient extends Document {
-  "FDC ID": number;
+  fdc_id: number;
   // ingredient_code: number;
   ingredient_description: string;
   // nutrient_code: number;
@@ -16,11 +16,12 @@ interface IIngredient extends Document {
 
 const IngredientSchema: Schema = new Schema({
   // "ingredient code": { type: Number, required: true },
-  "Ingredient description": { type: String, required: true },
+
+  Ingredient_description: { type: String, required: true },
   // "Nutrient code": { type: Number, required: true },
   // "Nutrient value": { type: Number, required: true },
   // "Nutrient value source": { type: String, required: true },
-  "FDC ID": { type: Number, required: true, unique: true, ref: "nutrients" },
+  fdc_id: { type: Number, required: true, unique: true, ref: "nutrients" },
   // "SR AddMod year": { type: Number, required: true },
   // "Foundation year acquired": { type: Number, required: true },
   // "Start date": { type: Date, required: true },
