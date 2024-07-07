@@ -53,3 +53,51 @@ export const getIngredients = async (req: Request, res: Response) => {
     }
   }
 };
+
+export const ingredientsSearch = async (req: Request, res: Response) => {
+  const { search } = req.params;
+  try {
+    const ingredients = await Ingredient.find({
+      ingredient_description: { $regex: search as string, $options: "i" },
+    }).limit(10);
+    res.json(ingredients);
+  } catch (error) {
+    res.status(500).send(error);
+    console.log(
+      "Error! There has been a problem in fetching ingredients. error -  ",
+      error
+    );
+  }
+};
+
+export const nutrientsByIngredient = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  console.log("🚀 ~ nutrientsByIngredient ~ id:", id);
+  try {
+    // const ingredient = await Ingredient.findById(id).populate({
+    //   path: "nutrients",
+    //   match: { fdc_id: "fdc_id" },
+    //   populate: {
+    //     path: "nutrientsNames",
+    //     model: "nutrientsNames",
+    //   },
+    // });
+    const ingredient = await Ingredient.findById(id);
+    const nutrientsValues = await nutrients.find({
+      fdc_id: ingredient?.fdc_id,
+    });
+    console.log(
+      "🚀 ~ nutrientsByIngredient ~ nutrientsValues:",
+      nutrientsValues
+    );
+    console.log("🚀 ~ nutrientsByIngredient ~ ingredient:", ingredient);
+
+    res.json(ingredient);
+  } catch (error) {
+    res.status(500).send(error);
+    console.log(
+      "Error! There has been a problem in fetching ingredients. error -  ",
+      error
+    );
+  }
+};

@@ -7,9 +7,9 @@ export interface IUserPreferences extends Document {
   age: string;
   goal: Types.ObjectId;
   amountOfMeals?: number;
-  dietType: Types.ObjectId;
-  sensitivities: Types.ObjectId;
-  suggestFoods: boolean;
+  dietType?: Types.ObjectId;
+  sensitivities?: Types.ObjectId;
+  suggestFoods?: boolean;
 }
 
 const userPreferencesSchema: Schema<IUserPreferences> = new Schema(
@@ -20,13 +20,17 @@ const userPreferencesSchema: Schema<IUserPreferences> = new Schema(
     age: { type: String, required: true },
     goal: { type: Schema.Types.ObjectId, ref: "goals", required: true },
     amountOfMeals: { type: Number, required: false },
-    dietType: { type: Schema.Types.ObjectId, ref: "dietTypes", required: true },
+    dietType: {
+      type: Schema.Types.ObjectId,
+      ref: "dietTypes",
+      required: false,
+    },
     sensitivities: {
       type: Schema.Types.ObjectId,
       ref: "sensitivities",
-      required: true,
+      required: false,
     },
-    suggestFoods: { type: Boolean, required: true },
+    suggestFoods: { type: Boolean, required: false },
   },
   { collection: "usersPreferences" }
 );
