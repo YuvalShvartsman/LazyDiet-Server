@@ -15,5 +15,6 @@ routes.use("/goals/", goalsRouter);
 routes.use("/dietTypes/", dietTypesRouter);
 routes.use("/sensitivities/", sensitivitiesRouter);
 routes.use("/ingredients/", ingredientsRouter);
+routes.use("/meals/", ingredientsRouter);
 
 export default routes;
