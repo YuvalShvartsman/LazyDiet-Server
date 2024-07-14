@@ -6,6 +6,7 @@ import { goalsRouter } from "./goalsRouter";
 import { dietTypesRouter } from "./dietTypesRouter";
 import { sensitivitiesRouter } from "./sensitivitiesRouter";
 import { ingredientsRouter } from "./ingredients.Router";
+import { mealsRouter } from "./meals.Router";
 
 const routes = express();
 
@@ -15,6 +16,6 @@ routes.use("/goals/", goalsRouter);
 routes.use("/dietTypes/", dietTypesRouter);
 routes.use("/sensitivities/", sensitivitiesRouter);
 routes.use("/ingredients/", ingredientsRouter);
-routes.use("/meals/", ingredientsRouter);
+routes.use("/meals/", mealsRouter);
 
 export default routes;

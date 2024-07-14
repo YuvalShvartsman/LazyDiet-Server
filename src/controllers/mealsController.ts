@@ -5,18 +5,24 @@ import { IMeal, Meals } from "../models/Meals";
 
 interface SaveMealsRequest extends Request {
   body: {
-    user: IUser;
-    meals: IMeal;
+    userId: string;
+    meals: IMeal[];
   };
 }
 
 export const saveMeals = async (req: SaveMealsRequest, res: Response) => {
-  const { user, meals } = req.body;
-  console.log("🚀 ~ saveMeals ~ meals:", meals);
-  console.log("🚀 ~ saveMeals ~ u:", user);
-  const createdMeal = Meals.create({ user, meals });
+  const { userId, meals } = req.body;
   try {
-    res.json({ data: { createdMeal } });
+    let createdMeals = [];
+    for (let i = 0; i < meals.length; i++) {
+      const mealToCreate: IMeal = meals[i];
+      const createdMeal = Meals.create({
+        ...{ userId },
+        ...mealToCreate,
+      });
+      createdMeals.push(createdMeal);
+    }
+    res.json({ data: { createdMeals } });
   } catch (error) {
     console.log(error);
     res.status(401).send("Invalid token");

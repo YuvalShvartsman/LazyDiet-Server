@@ -6,4 +6,4 @@ const router = express.Router();
 
 router.post("/", saveMeals);
 
-export { router as ingredientsRouter };
+export { router as mealsRouter };
