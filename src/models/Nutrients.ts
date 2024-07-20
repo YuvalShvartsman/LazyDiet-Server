@@ -1,21 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
 
-interface INutrientName extends Document {
-  name: string;
-  nutrient_id: number;
-}
-
-const NutrientNamesSchema: Schema = new Schema({
-  name: { type: String, required: true },
-  nutrient_id: { type: Number, required: true },
-});
-
-export const nutrientsNames = mongoose.model<INutrientName>(
-  "nutrientsNames",
-  NutrientNamesSchema,
-  "nutrientsNames"
-);
-
 interface INutrient extends Document {
   fdc_id: number;
   nutrient_id: number;
@@ -38,4 +22,4 @@ NutrientSchema.virtual("nutrientName", {
   justOne: true,
 });
 
-export const nutrients = mongoose.model<INutrient>("nutrients", NutrientSchema);
+export const Nutrients = mongoose.model<INutrient>("nutrients", NutrientSchema);

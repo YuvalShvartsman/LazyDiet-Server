@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { Ingredient } from "../models/Ingredients";
-import { nutrients } from "../models/Nutrients";
-import { nutrientsNames } from "../models/NutrientsNames";
+import { Nutrients } from "../models/Nutrients";
 
 export const getIngredients = async (req: Request, res: Response) => {
   const pageSize = 100000;
@@ -33,7 +32,7 @@ export const getIngredients = async (req: Request, res: Response) => {
         // Example processing:
         ingredients.forEach(async (ingredient) => {
           // console.log(ingredient);
-          const ingredientsNutrients = await nutrients.find({
+          const ingredientsNutrients = await Nutrients.find({
             fdc_id: ingredient.fdc_id,
           });
           ingredientsWithNutrients.push({ ingredient, ingredientsNutrients });
@@ -83,7 +82,7 @@ export const nutrientsByIngredient = async (req: Request, res: Response) => {
     //   },
     // });
     const ingredient = await Ingredient.findById(id);
-    const nutrientsValues = await nutrients.find({
+    const nutrientsValues = await Nutrients.find({
       fdc_id: ingredient?.fdc_id,
     });
     console.log(

@@ -9,6 +9,9 @@ import dotenv from "dotenv";
 
 import routes from "./routes";
 
+import "./models/NutrientsNames";
+import "./models/Nutrients";
+
 const app = express();
 const port = 3000;
 

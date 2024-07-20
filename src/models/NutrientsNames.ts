@@ -10,7 +10,7 @@ const NutrientNamesSchema: Schema = new Schema({
   nutrient_id: { type: Number, required: true },
 });
 
-export const nutrientsNames = mongoose.model<INutrientName>(
+export const NutrientsNames = mongoose.model<INutrientName>(
   "nutrientsNames",
   NutrientNamesSchema,
   "nutrientsNames"
