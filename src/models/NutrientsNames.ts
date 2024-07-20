@@ -12,5 +12,6 @@ const NutrientNamesSchema: Schema = new Schema({
 
 export const nutrientsNames = mongoose.model<INutrientName>(
   "nutrientsNames",
-  NutrientNamesSchema
+  NutrientNamesSchema,
+  "nutrientsNames"
 );
