@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose";
 
-interface INutrientName extends Document {
+export interface INutrientName extends Document {
   name: string;
   nutrient_id: number;
 }

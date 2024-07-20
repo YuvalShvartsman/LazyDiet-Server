@@ -1,8 +1,11 @@
 import mongoose, { Schema, Document } from "mongoose";
 
-interface IIngredient extends Document {
+import { INutrient } from "./Nutrients";
+
+export interface IIngredient extends Document {
   fdc_id: number;
   ingredient_description: string;
+  nutrientValues?: INutrient[];
 }
 
 const IngredientSchema: Schema = new Schema(
