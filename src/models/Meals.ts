@@ -6,7 +6,7 @@ export interface IMeal extends Document {
   description: number;
   prep: mongoose.Types.ObjectId;
   ingredients: { ingredient: mongoose.Types.ObjectId; amount: number }[];
-  macros: { nutrientName: mongoose.Types.ObjectId; amount: number }[];
+  macros: { amount: number; name: string; _id: mongoose.Types.ObjectId }[];
 }
 
 const MealSchema: Schema = new Schema({
@@ -27,7 +27,8 @@ const MealSchema: Schema = new Schema({
   macros: [
     {
       amount: { type: Number, required: true },
-      nutrientName: {
+      name: { type: String, required: true },
+      _id: {
         type: Schema.Types.ObjectId,
         required: false,
         ref: "nutrientsNames",
