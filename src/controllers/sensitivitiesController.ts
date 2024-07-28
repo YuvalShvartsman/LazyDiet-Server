@@ -3,7 +3,7 @@ import Sensitivities from "../models/Sensitivities";
 
 export const getSenitivities = async (req: Request, res: Response) => {
   try {
-    const sensitivities = Sensitivities.find();
+    const sensitivities = await Sensitivities.find();
     res.json(sensitivities);
   } catch (error) {
     console.log(error);

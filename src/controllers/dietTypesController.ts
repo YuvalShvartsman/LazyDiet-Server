@@ -3,7 +3,7 @@ import DietTypes from "../models/DietTypes";
 
 export const getDietTypes = async (req: Request, res: Response) => {
   try {
-    const dietTypes = DietTypes.find();
+    const dietTypes = await DietTypes.find();
     res.json(dietTypes);
   } catch (error) {
     console.log(error);
