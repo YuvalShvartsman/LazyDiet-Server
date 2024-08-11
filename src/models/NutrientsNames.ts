@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose";
 
-interface INutrientName extends Document {
+export interface INutrientName extends Document {
   name: string;
   nutrient_id: number;
 }
@@ -10,7 +10,8 @@ const NutrientNamesSchema: Schema = new Schema({
   nutrient_id: { type: Number, required: true },
 });
 
-export const nutrientsNames = mongoose.model<INutrientName>(
+export const NutrientsNames = mongoose.model<INutrientName>(
   "nutrientsNames",
-  NutrientNamesSchema
+  NutrientNamesSchema,
+  "nutrientsNames"
 );

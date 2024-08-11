@@ -3,7 +3,7 @@ import Goals from "../models/Goals";
 
 export const getGoals = async (req: Request, res: Response) => {
   try {
-    const goals = Goals.find();
+    const goals = await Goals.find();
     res.json(goals);
   } catch (error) {
     console.log(error);

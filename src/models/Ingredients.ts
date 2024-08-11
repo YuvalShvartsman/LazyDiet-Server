@@ -1,15 +1,25 @@
 import mongoose, { Schema, Document } from "mongoose";
 
-interface IIngredient extends Document {
+import { INutrient } from "./Nutrients";
+
+export interface IIngredient extends Document {
   fdc_id: number;
   ingredient_description: string;
-  nutrients: mongoose.Types.ObjectId[];
+  nutrientValues?: INutrient[];
 }
 
-const IngredientSchema: Schema = new Schema({
-  Ingredient_description: { type: String, required: true },
-  fdc_id: { type: Number, required: true, unique: true },
-  nutrients: [{ type: mongoose.Types.ObjectId, ref: "nutrients" }],
+const IngredientSchema: Schema = new Schema(
+  {
+    Ingredient_description: { type: String, required: true },
+    fdc_id: { type: Number, required: true, unique: true },
+  },
+  { toJSON: { virtuals: true }, toObject: { virtuals: true } }
+);
+
+IngredientSchema.virtual("nutrientValues", {
+  ref: "nutrients",
+  localField: "fdc_id",
+  foreignField: "fdc_id",
 });
 
 export const Ingredient = mongoose.model<IIngredient>(
