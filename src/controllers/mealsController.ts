@@ -2,10 +2,9 @@ import { Request, Response } from "express";
 
 import { IMeal, Meals } from "../models/Meals";
 import { Ingredient, IIngredient } from "../models/Ingredients";
+import { Macros } from "../models/Menus";
 
 import { ObjectId } from "mongodb";
-
-type Macros = { amount: number; name: string; _id: ObjectId };
 
 const getMealMacros = (
   ingredient: IIngredient | null,
