@@ -8,6 +8,7 @@ import { sensitivitiesRouter } from "./sensitivitiesRouter";
 import { ingredientsRouter } from "./ingredients.Router";
 import { mealsRouter } from "./meals.Router";
 import { mealTypesRouter } from "./mealTypesRouter";
+import { menusRouter } from "./menusRouter";
 
 const routes = express();
 
@@ -19,5 +20,6 @@ routes.use("/sensitivities/", sensitivitiesRouter);
 routes.use("/ingredients/", ingredientsRouter);
 routes.use("/meals/", mealsRouter);
 routes.use("/mealTypes/", mealTypesRouter);
+routes.use("/menus/", menusRouter);
 
 export default routes;

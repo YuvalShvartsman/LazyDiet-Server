@@ -8,19 +8,17 @@ export interface IMenus extends Document {
 }
 
 const menusSchema: Schema<IMenus> = new Schema({
-  menu: [
-    {
-      meals: [{ type: Schema.Types.ObjectId, ref: "meals", required: true }],
-      day: { type: String, required: true },
-      macros: [
-        {
-          amount: { type: Number, required: true },
-          name: { type: String, required: true },
-          _id: { type: Schema.Types.ObjectId, required: true },
-        },
-      ],
-    },
-  ],
+  menu: {
+    meals: [{ type: Schema.Types.ObjectId, ref: "meals", required: true }],
+    day: { type: String, required: true },
+    macros: [
+      {
+        amount: { type: Number, required: true },
+        name: { type: String, required: true },
+        _id: { type: Schema.Types.ObjectId, required: true },
+      },
+    ],
+  },
 });
 
 const Menus: Model<IMenus> = mongoose.model<IMenus>("menus", menusSchema);

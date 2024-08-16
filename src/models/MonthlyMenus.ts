@@ -1,7 +1,4 @@
 import mongoose, { Schema, Document, Model, Types } from "mongoose";
-import { ObjectId } from "mongodb";
-
-export type Macros = { amount: number; name: string; _id: ObjectId };
 
 export interface IMonthlyMenus extends Document {
   userId: Types.ObjectId;
@@ -17,7 +14,8 @@ const monthlyMenusSchema: Schema<IMonthlyMenus> = new Schema({
 
 const MonthlyMenus: Model<IMonthlyMenus> = mongoose.model<IMonthlyMenus>(
   "monthlyMenus",
-  monthlyMenusSchema
+  monthlyMenusSchema,
+  "monthlyMenus"
 );
 
 export default MonthlyMenus;
