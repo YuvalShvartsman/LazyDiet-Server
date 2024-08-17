@@ -4,13 +4,13 @@ import { ObjectId } from "mongodb";
 export type Macros = { amount: number; name: string; _id: ObjectId };
 
 export interface IMenus extends Document {
-  menu: { meals: Types.ObjectId[]; day: string; macros: Macros[] };
+  menu: { meals: Types.ObjectId[]; day: number; macros: Macros[] };
 }
 
 const menusSchema: Schema<IMenus> = new Schema({
   menu: {
     meals: [{ type: Schema.Types.ObjectId, ref: "meals", required: true }],
-    day: { type: String, required: true },
+    day: { type: Number, required: true },
     macros: [
       {
         amount: { type: Number, required: true },
