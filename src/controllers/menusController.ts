@@ -1,9 +1,52 @@
 import { Request, Response } from "express";
 
-import MonthlyMenus from "../models/MonthlyMenus";
-
+import { IUserPreferences } from "../models/UserPreferences";
 import { Meals } from "../models/Meals";
-import Menus from "../models/Menus";
+
+import MonthlyMenus from "../models/MonthlyMenus";
+import Menus, { Macros } from "../models/Menus";
+import Goals from "../models/Goals";
+
+// Helper functions:
+
+const createMenu = async (userPreferences: IUserPreferences, day: number) => {
+  // weight: string;
+  // height: string;
+  // age: string;
+  // goal: Types.ObjectId;
+  // amountOfMeals?: number;
+  // dietType?: Types.ObjectId;
+  // sensitivities?: Types.ObjectId;
+  // suggestFoods?: boolean;
+
+  const goal = await Goals.findOne({ _id: userPreferences.goal });
+
+  const PROTEIN_BULKING_MULTIPLIER = 2;
+
+  // const menuMacros = {
+  //   protein: 0,
+  //   carbs: 0,
+  //   calories: 0,
+  // };
+
+  // switch (goal?.goal) {
+  //   case "bulking":
+  //     menuMacros.protein = +userPreferences.weight * PROTEIN_BULKING_MULTIPLIER;
+  //     menuMacros.carbs = +userPreferences.weight * PROTEIN_BULKING_MULTIPLIER;
+  //     menuMacros.calories =
+  //       +userPreferences.weight * PROTEIN_BULKING_MULTIPLIER;
+
+  //     break;
+  //   case "cutting":
+  //     break;
+  //   case "weight-loss":
+  //     break;
+  //   case "health-based":
+  //     break;
+  // }
+
+  const menuMacros: Macros[] = [];
+};
 
 export const getMonthlyMenus = async (req: Request, res: Response) => {
   try {
@@ -22,7 +65,7 @@ export const getMonthlyMenus = async (req: Request, res: Response) => {
 
 export const createMonthlyMenus = async (req: Request, res: Response) => {
   try {
-    const userPreferences = req.body;
+    const userPreferences: IUserPreferences = req.body;
 
     const currentDate = new Date();
     const currentYear = currentDate.getFullYear();

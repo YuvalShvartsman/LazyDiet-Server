@@ -2,8 +2,8 @@ import mongoose, { Schema, Document, Model, Types } from "mongoose";
 
 export interface IUserPreferences extends Document {
   userId: Types.ObjectId;
-  weight: string;
-  height: string;
+  weight: string; //  TODO: MAKE THIS A NUMBER!  WHY IS THIS A STRING????????????????
+  height: string; //  TODO: MAKE THIS A NUMBER!  WHY IS THIS A STRING????????????????
   age: string;
   goal: Types.ObjectId;
   amountOfMeals?: number;
