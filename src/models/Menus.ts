@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document, Model, Types } from "mongoose";
 import { ObjectId } from "mongodb";
 
-export type Macros = { amount: number; name: string; _id: ObjectId };
+export type Macros = { amount: number; _id: Types.ObjectId };
 
 export interface IMenus extends Document {
   menu: { meals: Types.ObjectId[]; day: number; macros: Macros[] };
