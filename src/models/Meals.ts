@@ -1,11 +1,12 @@
 import mongoose, { Schema, Document, Types } from "mongoose";
+import { IMealTypes } from "./MealTypes";
 
 export interface IMeal extends Document {
   userId: Types.ObjectId;
   mealName: string;
   description: number;
   prep: mongoose.Types.ObjectId;
-  mealType: mongoose.Types.ObjectId;
+  mealType: IMealTypes | mongoose.Types.ObjectId;
   ingredients: { ingredient: mongoose.Types.ObjectId; amount: number }[];
   macros: { amount: number; name: string; _id: mongoose.Types.ObjectId }[];
 }

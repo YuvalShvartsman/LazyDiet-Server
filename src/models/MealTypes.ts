@@ -1,13 +1,13 @@
 import mongoose, { Schema, Document, Model, Types } from "mongoose";
 
 export interface IMealTypes extends Document {
-  id: Types.ObjectId;
+  _id: Types.ObjectId;
   mealType: string;
 }
 
 const mealTypesSchema: Schema<IMealTypes> = new Schema(
   {
-    id: { type: Schema.Types.ObjectId },
+    _id: { type: Schema.Types.ObjectId },
     mealType: { type: String, required: true },
   },
   { collection: "mealTypes" }
